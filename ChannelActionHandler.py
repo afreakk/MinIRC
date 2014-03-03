@@ -1,5 +1,4 @@
 from utilities import *
-from cool import *
 import string
 def parseIrcUser(user):
     user = user.replace('~', '') # owners
