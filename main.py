@@ -100,8 +100,6 @@ class MyWindow(PyQt5.QtWidgets.QMainWindow):
         for line in textArr:
             if self.filterChannel( self.extractChannelName(line) ):
                 filteredText += ("\n"+line)
-            else:
-                print "|"+self.extractChannelName(line)+"|"
         self.mainText.setPlainText(filteredText)
         self.mainText.verticalScrollBar().setValue(self.mainText.verticalScrollBar().maximum())
         self.mainText.moveCursor(PyQt5.QtGui.QTextCursor.End)
