@@ -45,6 +45,7 @@ class DataInterpreter(object):
     def makeSureExists(self, channel):
         if not channel in self.channels:
             self.channels[channel] = ChannelActionHandler(channel, self.window, self.userName)
+            self.channelNames.append(channel)
     def handlePrivMsg(self, user, args):
         if args[0].startswith('#'):
             channel = args[0].upper()
