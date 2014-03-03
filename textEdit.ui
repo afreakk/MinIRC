@@ -42,7 +42,7 @@
    <bool>false</bool>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(47, 47, 47);
+   <string notr="true">background-color: rgb(40, 40, 40);
 color: rgb(255, 255, 255);</string>
   </property>
   <property name="toolButtonStyle">
@@ -83,6 +83,10 @@ color: rgb(255, 255, 255);</string>
       </property>
       <property name="autoFillBackground">
        <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(50, 50, 50);
+color: rgb(255, 255, 255);</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::NoFrame</enum>
@@ -150,6 +154,10 @@ color: rgb(255, 255, 255);</string>
         <pointsize>9</pointsize>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(50, 50, 50);
+color: rgb(255, 255, 255);</string>
+      </property>
       <property name="frameShape">
        <enum>QFrame::NoFrame</enum>
       </property>
@@ -170,6 +178,10 @@ color: rgb(255, 255, 255);</string>
        <font>
         <pointsize>9</pointsize>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(50, 50, 50);
+color: rgb(255, 255, 255);</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::NoFrame</enum>
@@ -196,6 +208,10 @@ color: rgb(255, 255, 255);</string>
        <font>
         <pointsize>9</pointsize>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(50, 50, 50);
+color: rgb(255, 255, 255);</string>
       </property>
      </widget>
     </item>
