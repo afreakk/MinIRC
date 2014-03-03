@@ -15,4 +15,4 @@ F4-next channel
 GUI:
 Click on a channel to filter its users and messages out of the mainscreen.
 
-![Alt text](img.jpg "MinIRC")
+![Alt text](img.png "MinIRC")
