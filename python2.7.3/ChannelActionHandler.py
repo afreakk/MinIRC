@@ -1,43 +1,70 @@
 from utilities import *
 import string
-def parseIrcUser(user):
-    user = user.replace('~', '') # owners
-    user = user.replace('&', '') # admins
-    user = user.replace('@', '') # ops
-    user = user.replace('%', '') # half-ops
-    user = user.replace('+', '') # voiced
-    user = user.replace(':', '') # just because
-    return user
 
 class ChannelActionHandler:
 
     def __init__(self, channelName, window, nick):
-        self.replies = []
         self.channelName = channelName
         self.window = window
         self.window.appendChannel(self.channelName)
-        self.nick = nick
+        self.selfNick = nick
+        self.channelNicks = []
 
-    def handleMessage(self, user, message):
-        self.window.appendText("\n"+self.channelName+" "+ user.split("!")[0]+":"+message)
+    def appendChannelNicks(self, nickString):
+        nickList = nickString.split(" ")
+        for nick in nickList:
+            nick = self._streamLineNickWithoutIp(nick)
+            self._addNickToList(nick)
 
-    def appendUsers(self, users):
-        temp = string.split(users, " ")
-        for line in temp:
-            self.addUserToUserList(line)
-    def appendUser(self, user):
-        temp = string.split(user, "!")
-        self.window.appendText("\n"+self.channelName+" Join: "+temp[0])
-        self.addUserToUserList(temp[0])
+    def handleNickQuit(self, nickAndIP, message):
+        nick = self._streamLineNick(nickAndIP)
+        if nick in self.channelNicks:
+            self.window.appendText(nickAndIP+" quit:"+listPrint(message), self.channelName)
+            self._removeNickFromList(nick)
 
-    def removeUser(self, user):
-        temp = string.split(user, "!")
-        self.removeUserFromUserList(temp[0])
+    def handleMessage(self, nickAndIP, message):
+        nick = stripNick(nickAndIP);
+        self.window.appendText(nick+":"+message, self.channelName)
 
-    def removeUserFromUserList(self,user):
-        self.window.removeUser(user)
+    def appendNick(self, nickAndIP):
+        nick = self._streamLineNick(nickAndIP)
+        if self._isYou(nick):
+            self.window.appendText("<- you joined.", self.channelName)
+        else:
+            self.window.appendText(nick+" joined.", self.channelName)
+        self._addNickToList(nick)
 
-    def addUserToUserList(self,user):
-        if parseIrcUser(user) != self.nick:
-            self.window.appendUser(user, self.channelName)
+    def removeNick(self, nickAndIP):
+        nick = self._streamLineNick(nickAndIP)
+        self.window.appendText(" "+nick+" left.", self.channelName)
+        self._removeNickFromList(nick)
+
+    def _addNickToList(self, nick):
+        if self._isYou(nick):
+            return
+        self.channelNicks.append(nick)
+        self.window.appendNick(nick, self.channelName)
+
+    def _removeNickFromList(self, nick):
+        if self._isYou(nick):
+            return
+        if nick in self.channelNicks:
+            self.channelNicks.remove(nick)
+            self.window.removeNick(nick, self.channelName)
+
+    def _streamLineNick(self, nick):
+        nick = stripNick(nick)
+        return nick
+
+    def _streamLineNickWithoutIp(self, nickWithAuthotity):
+        nick = stripAuthorities(nickWithAuthotity)
+        return nick
+
+    def _isYou(self, nick):
+        return self._streamLineNick(nick).startswith(self.selfNick)
+
+    def _chanStrCap(self, s):
+        return s if len(s)<=3 else s[0:3]
+
+
 

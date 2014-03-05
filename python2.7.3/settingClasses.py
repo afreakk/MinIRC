@@ -1,5 +1,5 @@
-
 import socket
+
 #UserSettings
 class UserSettings(object):
     def __init__(self,user):
@@ -20,12 +20,17 @@ class ServerSettings(object):
 
     def getIrcSocket(self):
         self.s=socket.socket(socket.AF_INET, socket.SOCK_STREAM )
+        self.s.setblocking(0)
         errorMsg = None
         serverTries = 0
-        while errorMsg != 0:
-            errorMsg = self.s.connect_ex((self.host[serverTries], self.port))
-            print errorMsg
-            serverTries+=1
+        while errorMsg != 0 and serverTries < len(self.host):
+            try:
+                errorMsg = self.s.connect_ex((self.host[serverTries], self.port))
+            except Exception as msg:
+                print msg
+                serverTries+=1
+        if errorMsg != 0:
+            return None
         self.serverNumber = serverTries-1
         return self.s
     def getNumber(self):
